@@ -13,7 +13,7 @@
 
 ==Abstract==
 
-This BIP describes a new opcode (OP_MAXCONFIRMVERIFY) for Script. This OP code allows the user to generate a transaction which is only valid if included in a block below a user-defined blockheight.
+This BIP describes a new opcode (OP_MAXCONFIRMVERIFY) for Script. This OP code allows the user to generate a transaction which is only valid if included in a block below a specified block height or block time.
 
 
 ==Summary==
