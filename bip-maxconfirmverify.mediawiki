@@ -1,0 +1,58 @@
+<pre>
+  BIP: TBD
+  Layer: Consensus (soft fork)
+  Title: OP_MAXCONFIRMVERIFY
+  Author: Evan Winget <evan@boon.org>
+  Comments-Summary: No comments yet.
+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-MAXCONFIRMVERIFY
+  Status: Draft
+  Type: Standards Track
+  Created: 2024-01-21
+  License: BSD 3-clause
+</pre>
+
+==Abstract==
+
+This BIP describes a new opcode (OP_MAXCONFIRMVERIFY) for Script. This OP code allows the user to generate a transaction which is only valid if included in a block below a user-defined blockheight.
+
+
+==Summary==
+
+
+
+
+==Motivation==
+
+===Atomic Swaps===
+
+TODO (estimation of current & future demand; Dutch auction example)
+
+
+===Transaction Fees & Efficiency===
+
+TODO
+
+
+===Rebutting Satoshi's concerns===
+
+TODO
+
+
+==Specification==
+
+TODO
+
+
+==Deployment==
+
+Deployment of any new OP code should only occur after rigorous review of the technical soundness of the proposal as well as an assessment of demand for the proposed functionality. At time of writing (Jan 2024), neither of these prerequisites has been met. Therefore, it would be premature to consider deployment mechanisms.
+
+
+==Acknowledgements==
+
+TODO
+
+
+==References==
+
+TODO
