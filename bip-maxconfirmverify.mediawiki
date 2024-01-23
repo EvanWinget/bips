@@ -13,7 +13,7 @@
 
 ==Abstract==
 
-This BIP describes a new opcode (OP_MAXCONFIRMVERIFY) for Script. This OP code allows the user to generate a transaction which is only valid if included in a block below a specified block height or block time.
+This BIP describes a new opcode (OP_MAXCONFIRMVERIFY) for Script. This OP code allows the user to generate a transaction which is only valid if included in a block below a specified blockheight or blocktime.
 
 
 ==Summary==
@@ -25,7 +25,22 @@ This BIP describes a new opcode (OP_MAXCONFIRMVERIFY) for Script. This OP code a
 
 ===Atomic Swaps===
 
-TODO (estimation of current & future demand; Dutch auction example)
+Fungible asset protocols (e.g. BRC-20, Runes, Taproot Assets) and non-fungible asset protocols (e.g. Inscriptions) are growing in terms of their demand for Bitcoin blockspace. Many marketplaces, both centralized and decentralized, utilize PSBTs to generate offers for asset swaps. A partially completed PSBT from an offer creator can be safely shared across any communication channels, and a willing counterparty or counterparties can complete and broadcast the completed transaction. When confirmed in a block, the assets across the buyer(s) and seller(s) are atomically swapped.
+
+If an offer creator wishes to invalidate an offer prior to inclusion in a block, they must create and broadcast a new transaction which spends their output (to themselves) prior to the offer being confirmed.
+
+TODO - estimation of current & future demand
+
+====Simple asset swaps====
+
+Current State:
+Alice holds a stablecoin on the Taproot Assets protocol, L-USD. Alice knows the current market price of Bitcoin and creates a PSBT at current market rate to swap L-USD for Bitcoin. She publishes this PSBT, hoping that a willing counterparty will complete the swap and broadcast the signed transaction. Shortly after publishing the PSBT, the BTC-USD price moves down and Alice's offer is now for above the market exchange rate. Alice wants to invalidate the PSBT so that she does not overpay for her Bitcoin relative to market, and must pay an on-chain transaction fee in order to transfer the output to herself before the swap is confirmed in a block. It only becomes financially viable to perform this transaction when the transaction fee is less than the amount above the market price she would be paying for Bitcoin if her offer is accepted.
+
+With OP_MAXCONFIRMVERIFY:
+Alice creates a PSBT at current market rate to swap L-USD for Bitcoin, with a max blocktime of 1 hour in the future. If her offer is not accepted, she can generate a new offer at the current market price. If the BTC-USD moves down after the offer expiration (i.e. max blocktime), Alice knows that no one can complete and broadcast her offer as the transaction would be invalid.
+
+====Dutch auctions====
+TODO
 
 
 ===Transaction Fees & Efficiency===
