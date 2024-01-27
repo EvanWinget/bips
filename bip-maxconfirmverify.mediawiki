@@ -1,10 +1,10 @@
 <pre>
   BIP: TBD
   Layer: Consensus (soft fork)
-  Title: OP_MAXCONFIRMVERIFY
+  Title: OP_CHECKMAXTIMEVERIFY
   Author: Evan Winget <evan@boon.org>
   Comments-Summary: No comments yet.
-  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-MAXCONFIRMVERIFY
+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-CHECKMAXTIMEVERIFY
   Status: Draft
   Type: Standards Track
   Created: 2024-01-21
@@ -13,7 +13,7 @@
 
 ==Abstract==
 
-This BIP describes a new opcode (OP_MAXCONFIRMVERIFY) for Script. This OP code allows the user to generate a transaction which is only valid if included in a block below a specified blockheight or blocktime.
+This BIP describes a new opcode (OP_CHECKMAXTIMEVERIFY) for Script. This OP code allows the user to generate a transaction which is only valid if included in a block below a specified blockheight or blocktime.
 
 
 ==Summary==
@@ -36,7 +36,7 @@ TODO - estimation of current & future demand
 Current State:
 Alice holds a stablecoin on the Taproot Assets protocol, L-USD. Alice knows the current market price of Bitcoin and creates a PSBT at current market rate to swap L-USD for Bitcoin. She publishes this PSBT, hoping that a willing counterparty will complete the swap and broadcast the signed transaction. Shortly after publishing the PSBT, the BTC-USD price moves down and Alice's offer is now for above the market exchange rate. Alice wants to invalidate the PSBT so that she does not overpay for her Bitcoin relative to market, and must pay an on-chain transaction fee in order to transfer the output to herself before the swap is confirmed in a block. It only becomes financially viable to perform this transaction when the transaction fee is less than the amount above the market price she would be paying for Bitcoin if her offer is accepted.
 
-With OP_MAXCONFIRMVERIFY:
+With OP_CHECKMAXTIMEVERIFY:
 Alice creates a PSBT at current market rate to swap L-USD for Bitcoin, with a max blocktime of 1 hour in the future. If her offer is not accepted, she can generate a new offer at the current market price. If the BTC-USD moves down after the offer expiration (i.e. max blocktime), Alice knows that no one can complete and broadcast her offer as the transaction would be invalid.
 
 ====Dutch auctions====
