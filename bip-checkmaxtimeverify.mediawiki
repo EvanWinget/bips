@@ -20,8 +20,10 @@ This BIP describes a new opcode (OP_CHECKMAXTIMEVERIFY) for Script. This OP code
 
 OP_CHECKMAXTIMEVERIFY allows users to specify either a maximum blockheight or a maximum blocktime. The user can set either a maximum blockheight or a maximum blocktime, but not both.
 
-Maximum Blockheight: `OP_CHECKMAXTIMEVERIY <max_blockheight> 0`
-Maximum Blocktime: `OP_CHECKMAXTIMEVERIY 0 <max_blocktime>`
+Maximum Blockheight: 
+  OP_CHECKMAXTIMEVERIY <max_blockheight> 0
+Maximum Blocktime: 
+  OP_CHECKMAXTIMEVERIY 0 <max_blocktime>
 
 
 ==Motivation==
@@ -57,12 +59,14 @@ TODO
 
 A BitcoinTalk.org post from November 2010 proposed an op code OP_BLOCKNUMBER which would push the current block number onto the stack and allow for time limited transactions.
 
-[Satoshi responded](https://bitcointalk.org/index.php?topic=1786.msg22119#msg22119):
-> We can't safely do OP_BLOCKNUMBER.  In the event of a block chain reorg after a segmentation, transactions need to be able to get into the chain in a later block.  The OP_BLOCKNUMBER transaction and all its dependants would become invalid.  This wouldn't be fair to later owners of the coins who weren't involved in the time limited transaction.
-> 
-> nTimeLock does the reverse.  It's an open transaction that can be replaced with new versions until the deadline.  It can't be recorded until it locks.  The highest version when the deadline hits gets recorded.  It could be used, for example, to write an escrow transaction that will automatically permanently lock and go through unless it is revoked before the deadline.  The feature isn't enabled or used yet, but the support is there so it could be implemented later.
+[https://bitcointalk.org/index.php?topic=1786.msg22119#msg22119 Satoshi responded to this post]:
+''We can't safely do OP_BLOCKNUMBER.  In the event of a block chain reorg after a segmentation, transactions need to be able to get into the chain in a later block.  The OP_BLOCKNUMBER transaction and all its dependants would become invalid.  This wouldn't be fair to later owners of the coins who weren't involved in the time limited transaction.
 
-Reorgs were common in the early days of the Bitcoin network, as seen in the [historical data](../bip-checkmaxtimeverify/Monthly_stale_block_data.csv). In the last 5 years, data recorded at [https://github.com/bitcoin-data/stale-blocks](https://github.com/bitcoin-data/stale-blocks) shows an average of just 2.10 stale blocks per month between January 2019 and December 2023.
+nTimeLock does the reverse.  It's an open transaction that can be replaced with new versions until the deadline.  It can't be recorded until it locks.  The highest version when the deadline hits gets recorded.  It could be used, for example, to write an escrow transaction that will automatically permanently lock and go through unless it is revoked before the deadline.  The feature isn't enabled or used yet, but the support is there so it could be implemented later.''
+
+Reorgs were common in the early days of the Bitcoin network, as seen in the historical data. In the last 5 years, data recorded at [https://github.com/bitcoin-data/stale-blocks https://github.com/bitcoin-data/stale-blocks] shows an average of just 2.10 stale blocks per month between January 2019 and December 2023. This data is plotted in the figure below.
+
+[[File:bip-checkmaxtimeverify/Monthly_stale_block_chart.png|frame|This chart plots historical data from https://github.com/bitcoin-data/stale-blocks]]
 
 Users understand the oft repeated guidance of waiting 6 block confirmations for large transactions in order to have a high probability of finality. 
 
@@ -91,6 +95,6 @@ TODO
 
 ==References==
 
-https://github.com/bitcoin-data/stale-blocks - historical stale block data
-https://blockchair.com - UTC block datetimes
-https://twitter.com/mononautical/status/1734999756789739949
+* https://github.com/bitcoin-data/stale-blocks - historical stale block data
+* https://blockchair.com - UTC block datetimes
+* https://twitter.com/mononautical/status/1734999756789739949
