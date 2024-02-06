@@ -66,7 +66,7 @@ nTimeLock does the reverse.  It's an open transaction that can be replaced with 
 
 Reorgs were common in the early days of the Bitcoin network, as seen in the historical data. In the last 5 years, data recorded at [https://github.com/bitcoin-data/stale-blocks https://github.com/bitcoin-data/stale-blocks] shows an average of just 2.10 stale blocks per month between January 2019 and December 2023. This data is plotted in the figure below.
 
-[[File:bip-checkmaxtimeverify/Monthly_stale_block_chart.png|frame|This chart plots historical data from https://github.com/bitcoin-data/stale-blocks]]
+[[File:bip-checkmaxtimeverify/Monthly_stale_block_chart.png|frame]]
 
 Users understand the oft repeated guidance of waiting 6 block confirmations for large transactions in order to have a high probability of finality. 
 
