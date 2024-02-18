@@ -32,43 +32,43 @@ Maximum Blocktime:
 
 Fungible asset protocols (e.g. BRC-20, Runes, Taproot Assets) and non-fungible asset protocols (e.g. Inscriptions) are growing in terms of their demand for Bitcoin blockspace. Many marketplaces, both centralized and decentralized, utilize PSBTs to generate offers for asset swaps. A partially completed PSBT from an offer creator can be safely shared across any communication channels, and a willing counterparty or counterparties can complete and broadcast the completed transaction. When confirmed in a block, the assets across the buyer(s) and seller(s) are atomically swapped.
 
-If an offer creator wishes to invalidate an offer prior to inclusion in a block, they must create and broadcast a new transaction which spends their output (to themselves) prior to the offer being confirmed.
+If an offer creator wishes to invalidate an offer prior to inclusion in a block, they must create and broadcast a new transaction which spends their output (to themselves) prior to the offer being confirmed. This is inefficient as a rational actor will only cancel their offer if the cost of the transaction fee for the cancellation transaction is less than the difference between the market price for their good and their offer price.
 
-TODO - estimation of current & future demand
-
-
-====Simple asset swaps====
+====Simple Asset Swaps====
 
 Current State:
-Alice holds a stablecoin on the Taproot Assets protocol, L-USD. Alice knows the current market price of Bitcoin and creates a PSBT at current market rate to swap L-USD for Bitcoin. She publishes this PSBT, hoping that a willing counterparty will complete the swap and broadcast the signed transaction. Shortly after publishing the PSBT, the BTC-USD price moves down and Alice's offer is now for above the market exchange rate. Alice wants to invalidate the PSBT so that she does not overpay for her Bitcoin relative to market, and must pay an on-chain transaction fee in order to transfer the output to herself before the swap is confirmed in a block. It only becomes financially viable to perform this transaction when the transaction fee is less than the amount above the market price she would be paying for Bitcoin if her offer is accepted.
+Alice holds a stablecoin on the Taproot Assets protocol, L-USD. Alice knows the current market price of Bitcoin and creates a PSBT at current market rate to swap L-USD for bitcoin. She publishes this PSBT, hoping that a willing counterparty will complete the swap and broadcast the signed transaction. Shortly after publishing the PSBT, the BTC-USD price moves down and Alice's offer is now for above the market exchange rate. Alice wants to invalidate the PSBT so that she does not overpay for her Bitcoin relative to market, and must pay an on-chain transaction fee in order to transfer the output to herself before the swap is confirmed in a block. It only becomes financially viable to perform this transaction when the transaction fee is less than the amount above the market price she would be paying for Bitcoin if her offer is accepted.
 
 With OP_CHECKMAXTIMEVERIFY:
 Alice creates a PSBT at current market rate to swap L-USD for Bitcoin, with a max blocktime of 1 hour in the future. If her offer is not accepted, she can generate a new offer at the current market price. If the BTC-USD moves down after the offer expiration (i.e. max blocktime), Alice knows that no one can complete and broadcast her offer as the transaction would be invalid.
 
+====The Growing Popularity of Asset Swaps====
+We can estimate usage of PSBTs for asset swaps based on the volumes of transactions using SIGHASH_SINGLE|ANYONECANPAY. In 2023 as inscriptions and BRC-20 tokens grew in popularity, the number of monthly transactions using this sighash flag grew to over 2.5% of all Bitcoin transactions in December.
 
-====Dutch auctions====
+[[File:bip-checkmaxtimeverify/PSBT_based_token_sale_chart.png|frame]]
+
+Future demand for fungible and non-fungible tokens on Bitcoin is unclear. If asset issuance and asset swaps continue to grow and persist as a use case for Bitcoin, it would make sense to ensure that peer-to-peer markets are maximally efficient in order to avoid incentivizing users to move onto centralized platforms.
+
+====Dutch Auctions====
 TODO
 
 
-===Transaction Fees & Efficiency===
-
-TODO
-
-
-===Responding to historical concerns===
+===Looking at Historical Concerns===
 
 A BitcoinTalk.org post from November 2010 proposed an op code OP_BLOCKNUMBER which would push the current block number onto the stack and allow for time limited transactions.
 
 [https://bitcointalk.org/index.php?topic=1786.msg22119#msg22119 Satoshi responded to this post]:
-''We can't safely do OP_BLOCKNUMBER.  In the event of a block chain reorg after a segmentation, transactions need to be able to get into the chain in a later block.  The OP_BLOCKNUMBER transaction and all its dependants would become invalid.  This wouldn't be fair to later owners of the coins who weren't involved in the time limited transaction.
+''We can't safely do OP_BLOCKNUMBER.  In the event of a block chain reorg after a segmentation, transactions need to be able to get into the chain in a later block.  The OP_BLOCKNUMBER transaction and all its dependants would become invalid.  This wouldn't be fair to later owners of the coins who weren't involved in the time limited transaction.''
 
-nTimeLock does the reverse.  It's an open transaction that can be replaced with new versions until the deadline.  It can't be recorded until it locks.  The highest version when the deadline hits gets recorded.  It could be used, for example, to write an escrow transaction that will automatically permanently lock and go through unless it is revoked before the deadline.  The feature isn't enabled or used yet, but the support is there so it could be implemented later.''
+''nTimeLock does the reverse.  It's an open transaction that can be replaced with new versions until the deadline.  It can't be recorded until it locks.  The highest version when the deadline hits gets recorded.  It could be used, for example, to write an escrow transaction that will automatically permanently lock and go through unless it is revoked before the deadline.  The feature isn't enabled or used yet, but the support is there so it could be implemented later.''
 
-Reorgs were common in the early days of the Bitcoin network, as seen in the historical data. In the last 5 years, data recorded at [https://github.com/bitcoin-data/stale-blocks https://github.com/bitcoin-data/stale-blocks] shows an average of just 2.10 stale blocks per month between January 2019 and December 2023. This data is plotted in the figure below.
+ OP_CHECKMAXTIMEVERIFY would not add the blockheight or blocktime to the stack, instead the Script interpreter would access the chainstate in order to determine the validity of the transaction.
+
+Reorgs were common in the early days of the Bitcoin network when Satoshi expressed their concern with reorgs and dependent transactions. In the last 5 years, data recorded at [https://github.com/bitcoin-data/stale-blocks https://github.com/bitcoin-data/stale-blocks] shows an average of just 2.10 stale blocks per month between January 2019 and December 2023. This data is plotted in the figure below.
 
 [[File:bip-checkmaxtimeverify/Monthly_stale_block_chart.png|frame]]
 
-Users understand the oft repeated guidance of waiting 6 block confirmations for large transactions in order to have a high probability of finality. 
+Users understand the oft repeated guidance of waiting 6 block confirmations for large transactions in order to have a high probability of finality.
 
 
 ==Specification==
@@ -85,7 +85,7 @@ TODO
 
 ==Deployment==
 
-Deployment of any new OP code should only occur after rigorous review of the technical soundness of the proposal as well as an assessment of demand for the proposed functionality. At time of writing (Jan 2024), neither of these prerequisites has been met. Therefore, it would be premature to consider deployment mechanisms.
+Deployment of any new OP code should only occur after rigorous review of the technical soundness of the proposal as well as an assessment of future demand for the proposed functionality. At time of writing (Jan 2024), neither of these prerequisites has been met and there is not a working implementation. Therefore, it would be premature to consider deployment mechanisms.
 
 
 ==Acknowledgements==
@@ -97,4 +97,4 @@ TODO
 
 * https://github.com/bitcoin-data/stale-blocks - historical stale block data
 * https://blockchair.com - UTC block datetimes
-* https://twitter.com/mononautical/status/1734999756789739949
+* https://dune.com/domo/ordinals-marketplaces - daily Ordinals transaction volumes
