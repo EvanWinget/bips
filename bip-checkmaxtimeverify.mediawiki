@@ -13,7 +13,7 @@
 
 ==Abstract==
 
-This BIP describes a new opcode (OP_CHECKMAXTIMEVERIFY) for Script. This OP code allows the user to generate a transaction which is only valid if included in a block below a specified blockheight or blocktime.
+This BIP describes a new opcode (OP_CHECKMAXTIMEVERIFY) for Script. This op code allows the user to generate a transaction which is only valid if included in a block below a specified blockheight or blocktime.
 
 
 ==Summary==
@@ -85,7 +85,7 @@ TODO
 
 ==Deployment==
 
-Deployment of any new OP code should only occur after rigorous review of the technical soundness of the proposal as well as an assessment of future demand for the proposed functionality. At time of writing (Jan 2024), neither of these prerequisites has been met and there is not a working implementation. Therefore, it would be premature to consider deployment mechanisms.
+Deployment of any new op code should only occur after rigorous review of the technical soundness of the proposal as well as an assessment of future demand for the proposed functionality. At time of writing (Jan 2024), neither of these prerequisites has been met and there is not a working implementation. Therefore, it would be premature to consider deployment mechanisms.
 
 
 ==Acknowledgements==
